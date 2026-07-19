@@ -39,20 +39,20 @@ Full theoretical background, derivations, and methodology are documented in [`do
 | 256 | 500         | 75.28              | 12.21       |
 
 ### Plot 1 — Bitstream Spectrum (Noise Shaping Verification)
-`![Bitstream spectrum](Results/Screenshot 2026-07-19 005900.png)`
+![Bitstream spectrum](Results/Screenshot 2026-07-19 005900.png)
 
 *Insert here:* FFT / power spectral density of the raw 1-bit modulator output, showing the quantization noise rising toward f_s/2 (first-order noise shaping). This verifies the theoretical NTF behavior derived in the report (Section III-F).
 
 ### Plot 2 — Decimated Output Spectrum / Reconstructed Waveform
-`![Decimated output](Results/Screenshot 2026-07-19 005843.png)`
+![Decimated output](Results/Screenshot 2026-07-19 005843.png)
 
 *Insert here:* FFT of the decimated output at a representative OSR (e.g., OSR = 128), with the fundamental signal bin and in-band noise floor labeled — **or** a time-domain overlay of the reconstructed output against the original analog input.
 ---
 
 ## 4. Documentation
 
-- **Technical Report:** [`docs/Delta_Sigma_ADC_Technical_Report.pdf`](docs/Delta_Sigma_ADC_Technical_Report.pdf) — full theory, architecture, methodology, and performance analysis.
-- **Problem Statement:** [`docs/problem_statement.pdf`](docs/problem_statement.pdf) — original ISRO VLSI mock problem statement.
+- **Technical Report:** [`Docs/Technical Report.docx.pdf`](Docs/Technical Report.docx.pdf) — full theory, architecture, methodology, and performance analysis.
+- **Problem Statement:** [`Docs/problem_statement.pdf`](docs/problem_statement.pdf) — original ISRO VLSI mock problem statement.
 
 ---
 
