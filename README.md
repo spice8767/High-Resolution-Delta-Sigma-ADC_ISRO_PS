@@ -51,7 +51,7 @@ Full theoretical background, derivations, and methodology are documented in [`do
 
 ## 4. Documentation
 
-- **Technical Report:** [Docs/Technical Report.docx.pdf](Docs/Technical Report.pdf) — full theory, architecture, methodology, and performance analysis.
+- **Technical Report:** [Docs/Technical Report.docx.pdf](Docs/Technical%20Report.pdf) — full theory, architecture, methodology, and performance analysis.
 - **Problem Statement:** [`Docs/problem_statement.pdf`](docs/problem_statement.pdf) — original ISRO VLSI mock problem statement.
 
 ---
