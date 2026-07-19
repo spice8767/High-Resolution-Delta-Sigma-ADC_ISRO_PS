@@ -16,7 +16,7 @@ The system consists of:
 
 **Target specs:** output data rate 0.5–2 kSPS, ENOB ≈ 10–12 bits.
 
-Full theoretical background, derivations, and methodology are documented in [`docs/Delta_Sigma_ADC_Technical_Report.pdf`](Docs/Teechnical%20Report.docx.pdf).
+Full theoretical background, derivations, and methodology are documented in [`docs/Delta_Sigma_ADC_Technical_Report.pdf`](Docs/Technical%20Report.docx.pdf).
 
 ---
 
