@@ -1,0 +1,54 @@
+% --- CIC Filter Degree Automated Calculator (DSP Toolbox) ---
+
+% 1. Set your constant parameters
+constant_osr = 128;
+f_in = 128000;
+f_out = f_in / constant_osr;
+
+% 2. Define the filter degrees (number of sections) you want to test
+cic_degrees = [1, 2, 3, 4, 5]; 
+
+% Pre-allocate arrays for speed
+measured_snr = zeros(1, length(cic_degrees));
+enob_calc = zeros(1, length(cic_degrees));
+
+% 3. Loop through each filter degree
+for i = 1:length(cic_degrees)
+    
+    % Push the current degree and constant OSR to the base workspace
+    assignin('base', 'CURRENT_DEGREE', cic_degrees(i));
+    assignin('base', 'CURRENT_OSR', constant_osr);
+    
+    % Run the Simulink model 
+    % (Replace 'your_model_name' with your actual .slx filename)
+    sim_data = sim('Delta_Sigma_ADC'); 
+    Simulink.sdi.clear;
+    
+    % Extract the output data array from the simulation
+    % Extract the raw fixed-point data
+    raw_out = sim_data.adc_out; 
+
+    % Convert to double and normalize the massive CIC gain
+    normalized_output = double(raw_out) / (CURRENT_OSR^CURRENT_DEGREE);
+    
+    % Trim the initial filter delay (transient response)
+    % Higher-degree filters have longer delays. Dropping the first 100 
+    % samples ensures the filter has settled before calculating SNR.
+    if length(output_signal) > 100
+        output_signal = output_signal(100:end); 
+    end
+    
+    % 4. Calculate Measured SNR and ENOB
+    measured_snr(i) = snr(normalized_output, f_out);
+    enob_calc(i) = (measured_snr(i) - 1.76) / 6.02;
+end
+
+% --- Display the Results ---
+disp('===========================================================');
+disp('   CIC Degree    Constant OSR    Measured SNR (dB)    ENOB (bits)');
+disp('===========================================================');
+for i = 1:length(cic_degrees)
+    fprintf('   %-13d %-15d %-20.2f %-10.2f\n', ...
+        cic_degrees(i), constant_osr, measured_snr(i), enob_calc(i));
+end
+disp('===========================================================');

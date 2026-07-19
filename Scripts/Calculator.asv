@@ -1,0 +1,50 @@
+
+osr_list = [64, 96, 128, 192, 256];
+
+% Pre-allocate arrays to store results for speed
+measured_snr = zeros(1, length(osr_list));
+enob_calc = zeros(1, length(osr_list));
+
+% System parameters
+f_in = 128000; % Input sampling frequency (Hz)
+
+% Loop through each OSR value
+for i = 1:length(osr_list)
+    
+    % 2. Push the current OSR variable to the base workspace for Simulink to read
+    assignin('base', 'CURRENT_OSR', osr_list(i));
+    
+    % 3. Run the Simulink model 
+    % (Replace 'your_model_name' with your actual .slx filename without the extension)
+    sim_data = sim('Delta_Sigma_ADC'); 
+    
+    % 4. Extract the output data array from the simulation
+    output_signal = sim_data.adc_out;
+    
+    % Trim the initial filter delay (transient response) 
+    % CIC filters take time to settle. We drop the first 100 samples to prevent 
+    % startup zeros from ruining the SNR measurement.
+    if length(output_signal) > 100
+        output_signal = output_signal(100:end); 
+    end
+    
+    % Calculate actual output sampling rate (SPS)
+    f_out = f_in / osr_list(i);
+    
+    % 5. Calculate Measured SNR
+    % MATLAB's snr() function automatically finds the fundamental sine wave frequency
+    measured_snr(i) = snr(output_signal, f_out);
+    
+    % 6. Calculate ENOB based on the measured SNR
+    enob_calc(i) = (measured_snr(i) - 1.76) / 6.02;
+end
+
+% --- Display the Results matching TABLE II ---
+disp('===========================================================');
+disp('   OSR      f_out (SPS)    Measured SNR (dB)    ENOB (bits)');
+disp('===========================================================');
+for i = 1:length(osr_list)
+    fprintf('   %-8d %-14d %-20.2f %-10.2f\n', ...
+        osr_list(i), (f_in/osr_list(i)), measured_snr(i), enob_calc(i));
+end
+disp('===========================================================');
